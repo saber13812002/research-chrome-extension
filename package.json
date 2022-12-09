@@ -1,0 +1,14 @@
+{
+  "name": "rad_tool_chrome_extension",
+  "version": "0.0.1",
+  "description": "research tool for web todo list for tasks ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "research"
+  ],
+  "author": "saber tabatabaee yazdi",
+  "license": "ISC"
+}
