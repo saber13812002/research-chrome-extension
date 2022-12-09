@@ -10,5 +10,10 @@
     "research"
   ],
   "author": "saber tabatabaee yazdi",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/chrome": "^0.0.203",
+    "npm": "^9.2.0",
+    "types": "^0.1.1"
+  }
 }
