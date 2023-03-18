@@ -1,17 +1,25 @@
 {
-    "name": "research tools extension",
-    "version": "1.0",
-    "description": "",
-    "manifest_version": 2,
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": false
-    },
-    "permissions": ["bookmarks"],
-    "content_scripts": [
-        {
-          "matches": ["https://*.aparat.com/*"],
-          "js": ["aparat.js"]
-        }
-      ]
+  "name": "research tools extension",
+  "version": "1.0",
+  "description": "",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": ["bookmarks"],
+  "content_scripts": [{
+    "matches": [
+      "https://*.aparat.com/*",
+      "https://*.google.com/*",
+      "https://*.stackoverflow.com/*",
+      "https://*.youtube.com/*"
+    ],
+    "js": [
+      "aparat.js",
+      "stackoverflow.js",
+      "youtube.js",
+      "google.js"
+    ]
+  }]
 }

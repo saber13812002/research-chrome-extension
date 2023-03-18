@@ -12,7 +12,7 @@ function checkUrl(test_url) {
     var testLoc = document.createElement('a');
     testLoc.href = test_url.toLowerCase();
     url = testLoc.hostname;
-    if (url.indexOf('aparat.com') !== -1) {
+    if (url.indexOf('youtube.com') !== -1) {
         return true;
     }
     return false;
@@ -21,7 +21,7 @@ function checkUrl(test_url) {
 window.onload = () => {
 
     var a = document.URL;
-    var b = 'aparat.com';
+    var b = 'youtube.com';
     
     var test = checkUrl(b);
     console.log(b + ':' + test); //prints result
@@ -30,6 +30,7 @@ window.onload = () => {
         document.querySelector("#upload-video").prepend(button);
         button.addEventListener('click', () => enableDarkMode());
     }
+
 }
 
 function enableDarkMode() {
