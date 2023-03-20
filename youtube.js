@@ -24,8 +24,9 @@ window.onload = () => {
     var b = 'youtube.com';
     
     var test = checkUrl(b);
-    console.log(b + ':' + test); //prints result
+    console.log(b + ':' + test);
     if (test) {
+        console.log(b + ':2:' + test);
         var button = createButton("darkmodebutton", "Dark Mode");
         document.querySelector("#upload-video").prepend(button);
         button.addEventListener('click', () => enableDarkMode());

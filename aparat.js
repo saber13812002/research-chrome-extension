@@ -26,6 +26,7 @@ window.onload = () => {
     var test = checkUrl(b);
     console.log(b + ':' + test); //prints result
     if (test) {
+        console.log(b + ':2:' + test); //prints resul
         var button = createButton("darkmodebutton", "Dark Mode");
         document.querySelector("#upload-video").prepend(button);
         button.addEventListener('click', () => enableDarkMode());
