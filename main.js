@@ -48,6 +48,7 @@ window.onload = () => {
         console.log(aparat);
     } else if (checkUrl(stackoverflow)) {
         console.log(stackoverflow);
+        
     } else if (checkUrl(virgool)) {
         console.log(virgool);
         AfterElementId = "react-app";
