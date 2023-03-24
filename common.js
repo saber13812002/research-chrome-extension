@@ -1,8 +1,10 @@
-
-function createMyExtensionDivision(id) {
+function createMyExtensionDivision(id, className) {
     //Creating Elements
     var div = document.createElement("div")
     div.id = id;
+    if (className) {
+        div.classList.add(className);
+    }
     return div;
 };
 
@@ -67,10 +69,11 @@ function saveInChromeStorageByKey(key, value) {
     });
 }
 
-function addMyExtensionDivToPage(elementId, AfterElementId) {
+function addMyExtensionDivToPage(elementId, AfterElementId, className) {
     var myExtensionPlaceholder = document.getElementById(AfterElementId);
-    var div = createMyExtensionDivision(elementId);
+    var div = createMyExtensionDivision(elementId, className);
     myExtensionPlaceholder.appendChild(div);
+    myExtensionPlaceholder.insertBefore(div, myExtensionPlaceholder.firstChild);
     return div;
 }
 
@@ -88,13 +91,13 @@ function addTextBoxByElementId(elementId, AfterElementId, buttonText) {
     return textbox;
 }
 
-function call_google_share_api(element, query, token) {
-    document.getElementById("share_google_btn").setAttribute("disabled", ""); 
+function call_virgool_share_api(element, token) {
+    document.getElementById("share_virgool_btn").setAttribute("disabled", "");
 
     // document.querySelector("#app").style.backgroundColor = 'black';
     var request = new XMLHttpRequest();
     console.log(element.getAttribute("href"));
-    console.log(query);
+
     // Open a new connection, using the GET request on the URL endpoint
     var url = "https://berimbasket.ir/bball/bots/resend.php?token=" + token + "&" + element.getAttribute("href");
     console.log(url);
@@ -105,11 +108,43 @@ function call_google_share_api(element, query, token) {
         console.log("returned:");
         console.log(this); // 'this' should be a XMLHttpRequest object
         console.log(this.status);
-        if(this.status==200){
+        if (this.status == 200) {
+            var btn = document.getElementById("share_virgool_btn");
+            btn.innerText = "Done";
+        } else {
+            document.getElementById("share_virgool_btn").removeAttribute("disabled");
+        }
+        console.log(this.responseText);
+        if (this.responseText == "token not correct") {
+            addSaveTokenDivToPage();
+
+        }
+    }
+
+    // Send request
+    request.send()
+}
+
+function call_google_share_api(element, token) {
+    document.getElementById("share_google_btn").setAttribute("disabled", "");
+
+    // document.querySelector("#app").style.backgroundColor = 'black';
+    var request = new XMLHttpRequest();
+    console.log(element.getAttribute("href"));
+    // Open a new connection, using the GET request on the URL endpoint
+    var url = "https://berimbasket.ir/bball/bots/resend.php?token=" + token + "&" + element.getAttribute("href");
+    console.log(url);
+    request.open('GET', url, true)
+
+    request.onload = function () {
+        // Begin accessing JSON data here
+        console.log("returned:");
+        console.log(this); // 'this' should be a XMLHttpRequest object
+        console.log(this.status);
+        if (this.status == 200) {
             var btn = document.getElementById("share_google_btn");
             btn.innerText = "Done";
-        }
-        else{
+        } else {
             document.getElementById("share_google_btn").removeAttribute("disabled");
         }
         console.log(this.responseText);
@@ -127,4 +162,9 @@ function addSaveTokenDivToPage() {
     var button = addButtonByElementId("save_token_btn", "share_google_div", "save");
     var textbox = addTextBoxByElementId("berimbasket_token_txt", "share_google_div", "save");
     button.addEventListener('click', () => saveToken());
+}
+
+
+function getSecondPart(str) {
+    return str.split('https://vrgl.ir/')[1];
 }
