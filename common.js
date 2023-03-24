@@ -1,3 +1,4 @@
+
 function createMyExtensionDivision(id) {
     //Creating Elements
     var div = document.createElement("div")
@@ -23,69 +24,16 @@ function createTextBox(id, text) {
 };
 
 
-function checkUrl(test_url) {
+function checkUrl(url) {
     var testLoc = document.createElement('a');
-    testLoc.href = test_url.toLowerCase();
-    url = testLoc.hostname;
-    if (url.indexOf('google.com') !== -1) {
+    testLoc.href = url.toLowerCase();
+    current_url = testLoc.hostname;
+    if (current_url.indexOf(url) !== -1) {
         return true;
     }
     return false;
 }
 
-window.onload = () => {
-    var a = document.URL;
-    var b = 'google.com';
-
-    var test = checkUrl(b);
-    console.log(b + ':' + test); //prints result
-    console.log(b);
-    if (test) {
-        console.log(b + ':2:' + test);
-
-        AfterElementId = "extabar";
-        parentElementId = "share_google";
-
-        // var div = createMyExtensionDivision(parentElementId);
-
-        if (!document.getElementById(AfterElementId)) {
-            AfterElementId = "hdr";
-        }
-
-        var div = addMyExtensionDivToPage(parentElementId, AfterElementId);
-
-        elementId = "share_google_btn";
-        var button = addButtonByElementId(elementId, div.id, "Share");
-
-        console.log(b + ':3:' + elementId);
-
-
-        // Save it using the Chrome extension storage API.
-        // saveToken();
-
-        var token = "";
-        // Read it using the storage API
-        chrome.storage.sync.get(['berimbasket_token', 'berimbasket_name'], function (items) {
-            // message('Settings retrieved', items);
-            console.log('Settings retrieved : ' + items['berimbasket_token']);
-            token = items['berimbasket_token'];
-
-
-            if (token) {
-
-                // if (items.)
-
-                var qs = getQuerySearchPhraseGoogleDotCom();
-
-                var q = qs["q"];
-
-                button.setAttribute("href", "q=" + q);
-
-                button.addEventListener('click', () => call_share_api(button, q, token));
-            }
-        });
-    }
-}
 
 function getQuerySearchPhraseGoogleDotCom() {
     return (function (a) {
@@ -141,6 +89,8 @@ function addTextBoxByElementId(elementId, AfterElementId, buttonText) {
 }
 
 function call_share_api(el, q, token) {
+    document.getElementById("share_google_btn").setAttribute("disabled", ""); 
+
     // document.querySelector("#app").style.backgroundColor = 'black';
     var request = new XMLHttpRequest();
     console.log(el.getAttribute("href"));
@@ -155,6 +105,13 @@ function call_share_api(el, q, token) {
         console.log("returned:");
         console.log(this); // 'this' should be a XMLHttpRequest object
         console.log(this.status);
+        if(this.status==200){
+            var btn = document.getElementById("share_google_btn");
+            btn.innerText = "Done";
+        }
+        else{
+            document.getElementById("share_google_btn").removeAttribute("disabled");
+        }
         console.log(this.responseText);
         if (this.responseText == "token not correct") {
             var button = addButtonByElementId("save_token_btn", "share_google", "save");

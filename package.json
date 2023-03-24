@@ -1,8 +1,8 @@
 {
-  "name": "rad_tool_chrome_extension",
-  "version": "0.0.1",
-  "description": "research tool for web todo list for tasks ",
-  "main": "index.js",
+  "name": "social_messenger_helper_chrome_extension",
+  "version": "1.0.1",
+  "description": "content producer helper for messenger channel admins",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

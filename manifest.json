@@ -1,7 +1,7 @@
 {
-  "name": "research tools extension",
-  "version": "1.0",
-  "description": "",
+  "name": "social_messenger_helper_chrome_extension",
+  "version": "1.0.1",
+  "description": "content producer helper for messenger channel admins",
   "manifest_version": 2,
   "background": {
     "scripts": ["background.js"],
@@ -16,10 +16,8 @@
       "https://*.youtube.com/*"
     ],
     "js": [
-      "aparat.js",
-      "stackoverflow.js",
-      "youtube.js",
-      "google.js"
+      "common.js",
+      "main.js"
     ]
   }]
 }
