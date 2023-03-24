@@ -1,6 +1,6 @@
-
 window.onload = () => {
     var google = 'google.com';
+    var virgool = 'virgool.io';
     var youtube = 'youtube.com';
     var aparat = 'aparat.com';
     var stackoverflow = 'stackoverflow.com';
@@ -8,41 +8,73 @@ window.onload = () => {
     if (checkUrl(google)) {
         console.log(google);
         AfterElementId = "extabar";
-        parentElementId = "share_google";
+        parentElementId = "share_google_div";
 
         if (!document.getElementById(AfterElementId)) {
             AfterElementId = "hdr";
         }
 
-        var div = addMyExtensionDivToPage(parentElementId, AfterElementId);
+        var extension_div = addMyExtensionDivToPage(parentElementId, AfterElementId);
 
-        elementId = "share_google_btn";
-        var button = addButtonByElementId(elementId, div.id, "Share");
+        if (extension_div) {
+            elementId = "share_google_btn";
+            var button = addButtonByElementId(elementId, extension_div.id, "Share");
 
-        console.log(google + ':3:' + elementId);
+            console.log(google + ':3:' + elementId);
+
+            var token = "";
+            // Read it using the storage API
+            chrome.storage.sync.get(['berimbasket_token'], function (items) {
+                // message('Settings retrieved', items);
+                console.log('Settings retrieved : ' + items['berimbasket_token']);
+                token = items['berimbasket_token'];
+
+                if (token) {
+                    var queryString = getQuerySearchPhraseGoogleDotCom();
+                    var query = queryString["q"];
+                    var button = document.getElementById("share_google_btn");
+                    button.setAttribute("href", "q=" + query + "&origin=" + google);
+                    button.addEventListener('click', () => call_google_share_api(button, query, token));
+                } else {
+                    addSaveTokenDivToPage();
+                }
+            });
+        }
+        else{
+            console.log("parent div not found!")
+        }
+    } else if (checkUrl(youtube)) {
+        console.log(youtube);
+    } else if (checkUrl(aparat)) {
+        console.log(aparat);
+    } else if (checkUrl(stackoverflow)) {
+        console.log(stackoverflow);
+    } else if (checkUrl(virgool)) {
+        console.log(virgool);
+        AfterElementId = "share-link-copy";
+        parentElementId = "share_virgool_div";
+
+        var extension_div = addMyExtensionDivToPage(parentElementId, AfterElementId);
+
+        elementId = "share_virgool_btn";
+        var button = addButtonByElementId(elementId, extension_div.id, "Share");
+
+        // window.location.href: "http://localhost:4200/landing?query=1#2"
 
         var token = "";
         // Read it using the storage API
-        chrome.storage.sync.get(['berimbasket_token', 'berimbasket_name'], function (items) {
+        chrome.storage.sync.get(['berimbasket_token'], function (items) {
             // message('Settings retrieved', items);
             console.log('Settings retrieved : ' + items['berimbasket_token']);
             token = items['berimbasket_token'];
 
             if (token) {
-                var qs = getQuerySearchPhraseGoogleDotCom();
-                var q = qs["q"];
-                button.setAttribute("href", "q=" + q);
-                button.addEventListener('click', () => call_share_api(button, q, token));
+                var share_post__share_link_copy_input = document.getElementById("share-post--share-link-copy-input");
+                var url = share_post__share_link_copy_input.value;
+                button.setAttribute("href", "url=" + url + "&origin=" + virgool);
+                button.setAttribute();
+                button.addEventListener('click', () => call_virgool_share_api(button, q, token));
             }
         });
-    }
-    else if(checkUrl(youtube)){
-        console.log(youtube);
-    }
-    else if(checkUrl(aparat)){
-        console.log(aparat);
-    }
-    else if(checkUrl(stackoverflow)){
-        console.log(stackoverflow);
     }
 }
