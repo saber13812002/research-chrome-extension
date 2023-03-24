@@ -1,6 +1,6 @@
 {
   "name": "social_messenger_helper_chrome_extension",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "content producer helper for messenger channel admins",
   "main": "main.js",
   "scripts": {
