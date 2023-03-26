@@ -97,7 +97,7 @@ function call_virgool_share_api(element, token, elementId) {
 
     // Open a new connection, using the GET request on the URL endpoint
     var url =
-        "https://berimbasket.ir/bball/bots/resend.php?token=" +
+        "https://berimbasket.ir/bball/bots/chrome_extension_resend.php?token=" +
         token +
         "&" +
         element.getAttribute("href");
@@ -133,7 +133,7 @@ function call_google_share_api(element, token) {
     console.log(element.getAttribute("href"));
     // Open a new connection, using the GET request on the URL endpoint
     var url =
-        "https://berimbasket.ir/bball/bots/resend.php?token=" +
+        "https://berimbasket.ir/bball/bots/chrome_extension_resend.php?token=" +
         token +
         "&" +
         element.getAttribute("href");
