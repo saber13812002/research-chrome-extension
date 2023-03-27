@@ -146,11 +146,14 @@ window.onload = () => {
                     var url =
                         document.getElementsByClassName("share-buttons")[0]
                             .innerText;
+                    var blogOwner =
+                        document.getElementsByClassName("module--name")[0]
+                            .innerText;
                     url = getSecondPart(url);
                     var button = document.getElementById(elementId);
                     button.setAttribute(
                         "href",
-                        "url=" + url + "&origin=" + virgool
+                        "url=" + url + "&origin=" + virgool + "&blog_owner=" + blogOwner
                     );
                     button.addEventListener("click", () =>
                         call_virgool_share_api(button, token, elementId)
