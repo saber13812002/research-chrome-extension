@@ -149,11 +149,28 @@ window.onload = () => {
                     var blogOwner =
                         document.getElementsByClassName("module--name")[0]
                             .innerText;
+                    var blogTitle =
+                        document.querySelectorAll("h1")[0].innerText;
+                    var blogText =
+                        document
+                            .getElementsByClassName(
+                                "post-content article-content"
+                            )[0]
+                            .innerText.substring(0, 300) + "...";
                     url = getSecondPart(url);
                     var button = document.getElementById(elementId);
                     button.setAttribute(
                         "href",
-                        "url=" + url + "&origin=" + virgool + "&blog_owner=" + blogOwner
+                        "url=" +
+                            url +
+                            "&origin=" +
+                            virgool +
+                            "&blog_owner=" +
+                            blogOwner +
+                            "&blog_title=" +
+                            blogTitle +
+                            "&blog_text=" +
+                            blogText
                     );
                     button.addEventListener("click", () =>
                         call_virgool_share_api(button, token, elementId)
