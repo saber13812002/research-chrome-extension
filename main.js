@@ -7,7 +7,7 @@ window.onload = () => {
 
     if (checkUrl(google)) {
         console.log(google);
-        AfterElementId = "extabar";
+        AfterElementId = "appbar";
         parentElementId = "share_google_div";
 
         if (!document.getElementById(AfterElementId)) {

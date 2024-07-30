@@ -19,7 +19,8 @@
       "https://*.google.com/*",
       "https://*.stackoverflow.com/*",
       "https://*.youtube.com/*",
-      "https://*.virgool.io/*"
+      "https://*.virgool.io/*",
+      "https://*.navaar.ir/*"
     ],
     "js": [
       "common.js",
