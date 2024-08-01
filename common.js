@@ -56,8 +56,7 @@ function saveToken() {
 }
 
 function saveInChromeStorageByKey(key, value) {
-    chrome.storage.sync.set(
-        {
+    chrome.storage.sync.set({
             berimbasket_token: value,
         },
         function () {
@@ -123,6 +122,35 @@ function call_virgool_share_api(element, token, elementId) {
 
     // Send request
     request.send();
+}
+
+// Function to extract data using XPath
+function extractData(xpath, doc, resultType) {
+    const result = doc.evaluate(xpath, doc, null, resultType, null);
+    return resultType === XPathResult.STRING_TYPE ? result.stringValue : result.singleNodeValue;
+}
+
+// Send POST request
+async function sendPostRequest(data) {
+    try {
+        var url = "http://localhost:8000"
+        url = "https://bots.pardisania.ir"
+        const response = await fetch(url + '/api/rss-generator', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert('Data sent successfully!');
+        } else {
+            console.error('POST request failed:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error sending POST request:', error);
+    }
 }
 
 function call_google_share_api(element, token) {
