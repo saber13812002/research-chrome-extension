@@ -145,20 +145,20 @@ async function sendPostRequest(data) {
             body: JSON.stringify(data)
         });
 
-        if (response.ok) {            
+        if (response.ok) {
             button.style.backgroundColor = 'green'; // Reset color on success
-            button.textContent = response.statusText
+            button.textContent = response.statusText + ":" + response.type
 
             // alert('Data sent successfully!');
         } else {
             button.style.backgroundColor = 'red'; // Change button color to red on error
-            button.textContent = response.statusText
+            button.textContent = response.statusText + ":" + response.type
             const errorBody = await response.text(); // Log the response body
             console.error('POST request failed:', response.statusText, errorBody);
         }
-    } catch (error) {            
+    } catch (error) {
         button.style.backgroundColor = 'red'; // Change button color to red on error
-        button.textContent = response.statusText
+        button.textContent = response.statusText + ":" + response.type
 
         console.error('Error sending POST request:', error);
     }
