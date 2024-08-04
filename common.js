@@ -132,6 +132,8 @@ function extractData(xpath, doc, resultType) {
 
 // Send POST request
 async function sendPostRequest(data) {
+    var button = document.getElementById("share_navaar_btn");
+
     try {
         var url = "http://localhost:8000"
         url = "https://bots.pardisania.ir"
@@ -143,12 +145,21 @@ async function sendPostRequest(data) {
             body: JSON.stringify(data)
         });
 
-        if (response.ok) {
-            alert('Data sent successfully!');
+        if (response.ok) {            
+            button.style.backgroundColor = 'green'; // Reset color on success
+            button.textContent = response.statusText
+
+            // alert('Data sent successfully!');
         } else {
-            console.error('POST request failed:', response.statusText);
+            button.style.backgroundColor = 'red'; // Change button color to red on error
+            button.textContent = response.statusText
+            const errorBody = await response.text(); // Log the response body
+            console.error('POST request failed:', response.statusText, errorBody);
         }
-    } catch (error) {
+    } catch (error) {            
+        button.style.backgroundColor = 'red'; // Change button color to red on error
+        button.textContent = response.statusText
+
         console.error('Error sending POST request:', error);
     }
 }
