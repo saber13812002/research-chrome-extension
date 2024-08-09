@@ -101,7 +101,7 @@ window.onload = () => {
                     const url = window.location.href; // Get the current page URL
                     // alert(`Current URL: ${url}`); // Display the URL
 
-                    const match = url.match(/https:\/\/www\.navaar\.ir\/audiobook\/(\d{4,10})\/.*/);
+                    const match = url.match(/https:\/\/www\.navaar\.ir\/audiobook\/(\d{3,10})\/.*/);
 
                     if (match) {
                         const audioBookId = match[1];
