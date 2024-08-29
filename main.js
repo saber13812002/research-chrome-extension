@@ -3,6 +3,7 @@ window.onload = () => {
     var virgool = "virgool.io";
     var youtube = "youtube.com";
     var aparat = "aparat.com";
+    var songsara = "songsara.net";
     var stackoverflow = "stackoverflow.com";
     var navaar = "navaar.ir";
 
@@ -136,7 +137,7 @@ window.onload = () => {
 
 
                         button.addEventListener("click", () => {
-                            sendPostRequest(postData);
+                            sendPostRequest(postData, button);
                         });
                     }
                 }
@@ -268,5 +269,80 @@ window.onload = () => {
                 }
             });
         }
+    } else if (checkUrl(songsara)) {
+        console.log(songsara);
+
+        const url = window.location.href; // Get the current page URL
+        const match = url.match(/https:\/\/songsara\.net\/(\d{5,8})\//); // Match 6-digit ID
+
+        if (match) {
+            const sixDigitId = match[1]; // Extract the 6-digit ID
+            console.log("Extracted ID: " + sixDigitId);
+
+            // Find the parent element to insert the button
+            const parentElement = document.querySelector('.c-search'); // Adjust selector as needed
+
+            if (parentElement) {
+                // Create the button
+                const button = document.createElement('button');
+                button.textContent = "Send to Server";
+                button.className = "send-to-server-button"; // Add a class for styling if needed
+
+                // Append the button after the c-search div
+                parentElement.appendChild(button);
+
+                // Define XPath expressions
+                const descriptionXPath = '/html/body/div[1]/div[2]/div[2]/div/article/div[1]/div[1]/span[1]/a';
+                const titleXPath = '/html/body/div[1]/div[2]/div[2]/div/article/div[1]/div[1]/h2';
+                const imageXPath = '/html/body/div[1]/div[2]/div[2]/div/article/div[1]/figure/img';
+
+                // Ensure the document is available
+                const doc = document; // Use the global document object
+
+                // Extract description
+                const description = extractData(descriptionXPath, doc, XPathResult.STRING_TYPE);
+                const title = extractData(titleXPath, doc, XPathResult.STRING_TYPE);
+
+                // Extract image URL and title
+                const imageElement = extractData(imageXPath, doc, XPathResult.FIRST_ORDERED_NODE_TYPE);
+                const imageUrl = imageElement ? imageElement.getAttribute('src') : '';
+
+                // Define the XPath
+                const xpath = '/html/body/div[1]/div[2]/div[2]/div/article/div[3]/div/div/div/ul/li[1]';
+
+                // Evaluate the XPath
+                const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+
+                // Get the <li> element
+                const liElement = result.singleNodeValue;
+                var audioUrl = "";
+                if (liElement) {
+                    // Extract the URL from the data-src attribute
+                    audioUrl = liElement.getAttribute('data-src');
+                    console.log(audioUrl); // Output: https://dl6.songsara.net/FRE/10/Various Artists - Bossa Lofi (2024) SONGSARA.NET/01 Tranquilo.mp3
+                } else {
+                    console.log("Element not found!");
+                }
+
+                const payload = {
+                    origin: songsara,
+                    media_id: sixDigitId,
+                    image: imageUrl,
+                    media_url: audioUrl,
+                    link: url,
+                    title: title,
+                    description: description
+                };
+
+                // Add click event listener to the button
+                button.addEventListener("click", () => {
+                    sendPostRequest(payload, button); // Function to send the request
+                });
+
+            } else {
+                console.log("Parent element not found!");
+            }
+        }
     }
+
 };

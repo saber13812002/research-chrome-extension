@@ -1,6 +1,6 @@
 {
   "name": "social_messenger_helper_chrome_extension",
-  "version": "1.0.4",
+  "version": "1.0.45",
   "description": "content producer helper for messenger channel admins",
   "manifest_version": 2,
   "background": {
@@ -21,6 +21,7 @@
       "https://*.stackoverflow.com/*",
       "https://*.youtube.com/*",
       "https://*.virgool.io/*",
+      "https://*.songsara.net/*",
       "https://*.navaar.ir/*"
     ],
     "js": [

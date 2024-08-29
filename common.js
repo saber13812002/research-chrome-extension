@@ -131,8 +131,8 @@ function extractData(xpath, doc, resultType) {
 }
 
 // Send POST request
-async function sendPostRequest(data) {
-    var button = document.getElementById("share_navaar_btn");
+async function sendPostRequest(data, button) {
+    // var button = document.getElementById("share_navaar_btn");
 
     try {
         var url = "http://localhost:8000"
