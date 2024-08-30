@@ -137,7 +137,7 @@ window.onload = () => {
 
 
                         button.addEventListener("click", () => {
-                            sendPostRequest(postData, button);
+                            sendPostRequest(postData, button, 'rss-generator');
                         });
                     }
                 }
@@ -280,7 +280,7 @@ window.onload = () => {
             console.log("Extracted ID: " + sixDigitId);
 
             // Find the parent element to insert the button
-            const parentElement = document.querySelector('.c-search'); // Adjust selector as needed
+            const parentElement = document.querySelector('.mainlogo'); // Adjust selector as needed
 
             if (parentElement) {
                 // Create the button
@@ -288,8 +288,15 @@ window.onload = () => {
                 button.textContent = "Send to Server";
                 button.className = "send-to-server-button"; // Add a class for styling if needed
 
+                // Create the button
+                const sendButton = document.createElement('button');
+                sendButton.textContent = "Send Songsara Post Items";
+                sendButton.className = "send-songsara-button"; // Add a class for styling if needed
+
+
                 // Append the button after the c-search div
                 parentElement.appendChild(button);
+                parentElement.appendChild(sendButton);
 
                 // Define XPath expressions
                 const descriptionXPath = '/html/body/div[1]/div[2]/div[2]/div/article/div[1]/div[1]/span[1]/a';
@@ -336,9 +343,109 @@ window.onload = () => {
 
                 // Add click event listener to the button
                 button.addEventListener("click", () => {
-                    sendPostRequest(payload, button); // Function to send the request
+                    sendPostRequest(payload, button, 'rss-generator'); // Function to send the request
                 });
 
+                sendButton.addEventListener('click', () => {
+                    var listItems = document.querySelectorAll('section.sidebox-top > div.tab-pane > ul > li');
+                    listItems = document.querySelectorAll('ul.related-sc > li');
+
+                    // Initialize an array to hold the results
+                    const results = [];
+
+                    // Loop through each <li> element
+                    listItems.forEach(li => {
+                        // Get the title from the first <a> tag
+                        const anchor = li.querySelector('a');
+
+                        const titleElement = li.querySelector('.related-al');
+                        const title = titleElement ? titleElement.textContent.trim() : '';
+
+                        // Get the URL from the first <a> tag
+                        const url = anchor ? anchor.href : '';
+
+                        // Extract the media ID from the URL (assuming it's always the last part of the URL)
+                        const mediaId = url.match(/\/(\d+)\/?$/) ? url.match(/\/(\d+)\/?$/)[1] : '';
+
+                        // Get the artist from the second <span> with class "related-ar"
+                        const artistSpan = li.querySelector('.related-ar:nth-of-type(1) a');
+                        const artist = artistSpan ? artistSpan.textContent : '';
+
+                        // Get the genre from the second <span> with class "related-ar"
+                        const genreSpan = li.querySelector('.related-ar:nth-of-type(2) a');
+                        const genre = genreSpan ? genreSpan.textContent : '';
+
+                        // Get the release date from the last <span> with class "related-da"
+                        const releaseDateSpan = li.querySelector('.related-da');
+                        const releaseDate = releaseDateSpan ? releaseDateSpan.textContent : '';
+
+                        // Get the image URL from the <img> tag
+                        const imgTag = li.querySelector('img');
+                        const songImageUrl = imgTag ? imgTag.src : '';
+
+                        // Check if the anchor exists and get its href
+                        if (anchor) {
+
+                            console.log({
+                                origin: songsara,
+                                media_id: mediaId,
+                                title,
+                                artist,
+                                genre,
+                                releaseDate
+                            });
+
+                            // Prepare payload
+                            const payload = {
+                                // origin: songsara,
+                                media_id: mediaId,
+                                url: url, // Append the media ID to the base URL
+                                title: title,
+                                image_link: songImageUrl,
+                                artist,
+                                genre,
+                                release_date: releaseDate,
+                            };
+
+                            sendPostRequest(payload, sendButton, 'song-sara-songs'); // Define this function to handle API requests
+
+
+                        }
+                    });
+
+                    // songEntries.forEach(entry => {
+                    //     const lines = entry.split('\n').map(line => line.trim()).filter(line => line); // Split by new lines and trim
+
+                    //     if (lines.length >= 4) {
+                    //         const title = lines[0]; // First line is the title
+                    //         const artist = lines[1]; // Second line is the artist
+                    //         const genre = lines[2]; // Third line is the genre
+                    //         const releaseDate = lines[3]; // Fourth line is the release date
+                    //         const songUrl = ""; // Set this to the actual URL if available
+
+                    //         console.log({
+                    //             title,
+                    //             artist,
+                    //             genre,
+                    //             releaseDate,
+                    //             songUrl
+                    //         });
+
+                    //         // Prepare payload
+                    //         const payload = {
+                    //             origin: songsara,
+                    //             media_id: sixDigitId,
+                    //             image: imageUrl,
+                    //             media_url: audioUrl,
+                    //             link: `${baseUrl}${sixDigitId}`, // Append the media ID to the base URL
+                    //             title: title,
+                    //             description: description
+                    //         };
+
+                    //         sendPostRequest(payload, sendButton, 'song-sara-songs'); // Define this function to handle API requests
+                    //     }
+                    // });
+                });
             } else {
                 console.log("Parent element not found!");
             }

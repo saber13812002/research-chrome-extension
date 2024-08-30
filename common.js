@@ -131,13 +131,14 @@ function extractData(xpath, doc, resultType) {
 }
 
 // Send POST request
-async function sendPostRequest(data, button) {
+async function sendPostRequest(data, button, endpoint) {
     // var button = document.getElementById("share_navaar_btn");
 
     try {
         var url = "http://localhost:8000"
         url = "https://bots.pardisania.ir"
-        const response = await fetch(url + '/api/rss-generator', {
+        var uri = url + '/api/' + endpoint;
+        const response = await fetch(uri, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
