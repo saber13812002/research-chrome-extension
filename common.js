@@ -73,6 +73,27 @@ function addMyExtensionDivToPage(elementId, AfterElementId, className) {
     return div;
 }
 
+
+function addMyExtensionDivToPageByClassName(elementId, AfterElementClassName, className) {
+    var myExtensionPlaceholder = document.getElementsByClassName(AfterElementClassName);
+    
+    if (myExtensionPlaceholder.length > 0) {
+        var div = createMyExtensionDivision(elementId, className);
+        
+        // Append the new div to the first element in the collection
+        myExtensionPlaceholder[0].appendChild(div);
+        
+        // Insert the new div before the first child of the first element in the collection
+        myExtensionPlaceholder[0].insertBefore(div, myExtensionPlaceholder[0].firstChild);
+        
+        return div;
+    } else {
+        console.log("No elements found with the class name: " + AfterElementClassName);
+        return null;
+    }
+}
+
+
 function addButtonByElementId(elementId, AfterElementId, buttonText) {
     var slim_bar = document.getElementById(AfterElementId);
     var button = createButton(elementId, buttonText);
@@ -128,6 +149,18 @@ function call_virgool_share_api(element, token, elementId) {
 function extractData(xpath, doc, resultType) {
     const result = doc.evaluate(xpath, doc, null, resultType, null);
     return resultType === XPathResult.STRING_TYPE ? result.stringValue : result.singleNodeValue;
+}
+
+function extractDataSharab(xpath, doc, resultType) {
+    const result = doc.evaluate(xpath, doc, null, resultType, null);
+    
+    if (resultType === XPathResult.STRING_TYPE) {
+        return result.stringValue;
+    } else if (resultType === XPathResult.ORDERED_NODE_SNAPSHOT_TYPE) {
+        return result; // Return the entire snapshot for further processing
+    } else {
+        return result.singleNodeValue; // For single node results
+    }
 }
 
 // Send POST request

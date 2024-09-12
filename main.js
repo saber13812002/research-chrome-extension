@@ -4,6 +4,7 @@ window.onload = () => {
     var youtube = "youtube.com";
     var aparat = "aparat.com";
     var songsara = "songsara.net";
+    var sharabebeheshti = "sharabebeheshti.ir";
     var stackoverflow = "stackoverflow.com";
     var navaar = "navaar.ir";
 
@@ -148,6 +149,68 @@ window.onload = () => {
             console.log("parent div navaar not found!");
         }
 
+    } else if (checkUrl(sharabebeheshti)) {
+        console.log(sharabebeheshti);
+
+        AfterElementClassName = "qodef-position-center-inner";
+        parentElementId = "share_sharabebeheshti_div";
+
+        var extension_div = addMyExtensionDivToPageByClassName(
+            parentElementId,
+            AfterElementClassName,
+            ""
+        );
+
+        console.log(sharabebeheshti);
+
+        if (extension_div) {
+            elementId = "share_sharabebeheshti_btn";
+            var button = addButtonByElementId(
+                elementId,
+                extension_div.id,
+                "Share"
+            );
+
+            console.log(sharabebeheshti + ":3:" + elementId);
+
+            var token = "";
+            chrome.storage.sync.get(["berimbasket_token"], function (items) {
+                token = items["berimbasket_token"];
+
+                if (token) {
+                    const url = window.location.href;
+
+                    // Define XPath expressions for MP3 files and titles
+                    const mp3XPath = '/html/body/div[1]/div/div/div/div[2]/div/div[1]/div[3]/div/div/div[1]/div/div/div/div/p/a';
+                    const titleXPath = '/html/body/div[1]/div/div/div/div[2]/div/div[1]/div[3]/div/div/div[1]/div/div/div/div/p/text()';
+
+                    // Extract MP3 links and titles
+                    const mp3Links = extractDataSharab(mp3XPath, document, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
+                    const titles = extractDataSharab(titleXPath, document, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
+
+                    let postDataArray = [];
+                    for (let i = 0; i < mp3Links.snapshotLength; i++) {
+                        const mp3Link = mp3Links.snapshotItem(i).getAttribute('href');
+                        const title = titles.snapshotItem(i).textContent;
+
+                        postDataArray.push({
+                            origin: 'sharabebeheshti.ir',
+                            title: title,
+                            link: mp3Link,
+                        });
+
+
+                        button.addEventListener("click", () => {
+                            postDataArray.forEach(data => {
+                                sendPostRequest(data, button, '/api/channel/mp3');
+                            });
+                        });
+                    }
+                }
+            });
+        } else {
+            console.log("parent div navaar not found!");
+        }
     } else if (checkUrl(aparat)) {
         console.log(aparat);
     } else if (checkUrl(stackoverflow)) {
@@ -452,4 +515,6 @@ window.onload = () => {
         }
     }
 
-};
+};/
+..
+q
